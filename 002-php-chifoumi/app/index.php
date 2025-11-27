@@ -1,80 +1,82 @@
 <?php
-
 $player = $_GET['player'] ?? null;
-$choices = ["pierre", "feuille", "ciseaux"];
+$choices = ["Pierre", "Feuille", "Ciseaux"];
 $scoreJoueur = 0;
 $scoreStockfish= 0;
-
-$phpChoice = null;
+$StockfishChoice = null;
+$resultat = "Bon courage &#x1F480;";
 if ($player !== null) {
-    $phpChoice = $choices[array_rand($choices)];
+
+    $StockfishChoice = $choices[array_rand($choices)];
+
 }
-$result = "Faire un choix pour commencer";
-
 if ($player !== null) {
-    if ($player === $phpChoice) {
-        $result = "Égalité";
-    } elseif (
-        ($player === "pierre" && $phpChoice === "ciseaux") ||
-        ($player === "feuille" && $phpChoice === "pierre") ||
-        ($player === "ciseaux" && $phpChoice === "feuille")
-    ) {
-        $result = "Gagné";
+    if ($player === $StockfishChoice) {
+        $resultat = "Égalité";
+}
+    elseif (
+        ($player === "pierre" && $StockfishChoice === "ciseaux") ||
+        ($player === "feuille" && $StockfishChoice === "pierre") ||
+        ($player === "ciseaux" && $StockfishChoice === "feuille")
+    )
+    {
+        $resultat = "Gagné !";
         $scoreJoueur = $scoreJoueur + 1 ;
-    } else {
-        $result = "Perdu";
+    }
+    else {
+        $resultat = "Perdu !";
         $scoreStockfish = $scoreStockfish + 1 ;
     }
 }
+
+
+
 
 $html = <<<HTML
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    
     <meta charset="UTF-8">
     <title>Jeu Pierre, Feuille, Ciseaux</title>
+    
     <style>
-        body { text-align: center; margin-top: 40px; }
-        .zone { margin: 20px; font-size: 20px; }
-        button { padding: 10px 20px; margin: 5px; font-size: 16px; border-radius: 10px; }
+        body { text-align: center}
+        
+        button { padding: 10px; margin: 5px }
     </style>
+
 </head>
 <body>
-
-    <h1>Jeu Pierre, Feuille, Ciseaux</h1>
-
-    <div class="zone">
+    <h1> Jeu Pierre, Feuille, Ciseaux </h1>
+    <div>
         <strong>Choix du joueur :</strong><br>
         {$player}
     </div>
-
-    <div class="zone">
+    <div>
         <strong>Choix de Stockfish :</strong><br>
-        {$phpChoice}
+        {$StockfishChoice}
     </div>
-
-    <div class="zone">
+    <div>
         <strong>Résultat :</strong><br>
-        {$result}
+        {$resultat}
     </div>
-
-    <div class="zone">
+    <div>
         <a href="?player=pierre"><button>Pierre</button></a>
         <a href="?player=feuille"><button>Feuille</button></a>
         <a href="?player=ciseaux"><button>Ciseaux</button></a>
-        <a href="/"><button>Réinitialiser</button></a>
+        <a href="/"><button>Réinitialiser</button></a> 
     </div>
-    <div class="zone">Vous:$scoreJoueur</div>
-    <div class="zone">Stockfish:$scoreStockfish</div>
-
+    <div>Vous:$scoreJoueur</div>
+    <div>Stockfish:$scoreStockfish</div>
+    
 </body>
+
 </html>
 HTML;
 
-$html = str_replace("HTML_PLAYER", $player ?? "En attente d'un choix...", $html);
-$html = str_replace("HTML_PHP", $phpChoice ?? "En attente...", $html);
-$html = str_replace("HTML_RESULT", $result, $html);
+$html = str_replace("HTML_PLAYER", $player ?? "Faites votre choix...", $html);
+$html = str_replace("HTML_PHP", $StockfishChoice ?? "...", $html);
+$html = str_replace("HTML_RESULT", $resultat, $html);
 
 echo $html;
-
-?>
