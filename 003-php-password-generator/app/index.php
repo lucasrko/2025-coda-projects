@@ -67,22 +67,35 @@ function generatePassword(
     bool $useNum,
     bool $useSymbols
 ): string {
+
+    $lower = "abcdefghijklmnopqrstuvwxyz";
+    $upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $numbers = "0123456789";
+    $symbols = "!@#$%^&*()";
+
+
+    $pool = "";
+
+    if ($useAlphaMin) $pool .= $lower;
+    if ($useAlphaMaj) $pool .= $upper;
+    if ($useNum) $pool .= $numbers;
+    if ($useSymbols) $pool .= $symbols;
+
+    // Si l'utilisateur ne coche rien → erreur
+    if ($pool === "") {
+        return "Veuillez sélectionner au moins un type de caractères.";
+    }
+
     $password = "";
 
-    if ($useAlphaMaj = 1){
-        $useAlphaMaj="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    // Génération sécurisée du mot de passe
+    for ($i = 0; $i < $size; $i++) {
+        $password .= $pool[random_int(0, strlen($pool) - 1)];
     }
-    if($useAlphaMin = 1){
-        $useAlphaMin="abcdefghijklmnopqrstuvwxyz"
-    }
-    if ($useNum = 1){
-        $useNum="0123456789";
-    }
-    if ($useSymbols = 1){
-        $useSymbols = "!@#$%^&*()";
-    }
+
     return $password;
 }
+
 
 // -- params
 $generated = "...";
@@ -128,62 +141,86 @@ $page = <<<HTML
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
     <title>Générateur de mot de passe</title>
+    <style>
+        body{
+        background-color: deepskyblue; 
+        text-align: center;
+        }
+        .container{
+            padding: 10px;
+            background-color: white;
+            margin: 130px;
+            margin-right: 400px;
+            margin-left: 400px;
+            font-family: Arial;
+            border-radius: 20px;
+        }
+        h1{
+        border-radius: 10px;
+        border: solid 2px black;
+        padding: 10px;
+        margin: 40px;
+        }
+        .generate{
+        border: solid 2px black;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 40px;
+        }
+    </style>
   </head>
   <body>
 
     <div class="container">
         <h1>Générateur de mot de passe</h1>
 
-        <div class="row pt-4">
-            <div class="col-md-12">
-                <div class="alert alert-dark" role="alert">
-                  <div class="h3 mb-0 pb-0">{$generated}</div>
+        <div >
+            <div>
+                <div role="alert">
+                  <div class="generate">{$generated}</div>
                 </div>
             </div>
         </div>
         
-        <div class="row pt-4">
-            <div class="col-md-6">
+        <div>
+            <div>
                <h4>Paramètres</h4>
             
                 <form method="POST" action="/">
-                    <div class="form-check pb-2">
-                        <label for="size" class="form-label">Taille</label>
-                        <select class="form-select" aria-label="Default select example" name="size">
+                    <div>
+                        <label for="size">Taille</label>
+                        <select aria-label="Default select example" name="size">
                             {$sizeSelectorOptions}
                         </select>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="1" id="use-alpha-min" name="use-alpha-min" {$useAlphaMinChecked}>
-                      <label class="form-check-label" for="use-alpha-min">
+                    <div>
+                      <input type="checkbox" value="1" id="use-alpha-min" name="use-alpha-min" {$useAlphaMinChecked}>
+                      <label for="use-alpha-min">
                         Utiliser les lettres minuscules (a-z)
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="1" id="use-alpha-maj" name="use-alpha-maj" {$useAlphaMajChecked}>
-                      <label class="form-check-label" for="use-alpha-maj">
+                      <input type="checkbox" value="1" id="use-alpha-maj" name="use-alpha-maj" {$useAlphaMajChecked}>
+                      <label for="use-alpha-maj">
                         Utiliser les lettres majuscules (A-Z)
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="1" id="use-num" name="use-num" {$useNumChecked}>
-                      <label class="form-check-label" for="use-num">
+                    <div>
+                      <input type="checkbox" value="1" id="use-num" name="use-num" {$useNumChecked}>
+                      <label for="use-num">
                         Utiliser les chiffres (0-9)
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="1" id="use-symbols" name="use-symbols" {$useSymbolsChecked}>
-                      <label class="form-check-label" for="use-symbols">
+                    <div>
+                      <input type="checkbox" value="1" id="use-symbols" name="use-symbols" {$useSymbolsChecked}>
+                      <label for="use-symbols">
                         Utiliser les symboles (!@#$%^&*())
                       </label>
                     </div>
                     
-                    <div class="pt-2">
-                        <button type="submit" class="btn btn-primary mb-3">Générer !</button>
+                    <div>
+                        <button type="submit">Générer !</button>
                     </div>
                 </form>
             </div>
