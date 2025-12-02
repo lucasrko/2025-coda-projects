@@ -1,10 +1,9 @@
 <?php
 
-// -- importation des librairies à l'aide de require_once
 require_once 'inc/page.inc.php';
 require_once 'inc/database.inc.php';
 
-// -- initialisation de la connexion à la base de données
+// Connexion à la base de données
 
 // c'est une opération dangereuse, donc on utilise try/catch
 // et on affiche le message d'erreur si une erreur survient
@@ -19,16 +18,11 @@ try {
     exit;
 }
 
-// -- on récupère les infors de tout les artistes depuis la base de données
+// -- on récupère les infos de tout les artistes depuis la base de données
 $allArtists = [];
 
-// c'est une opération dangereuse, donc on utilise try/catch
-// et on affiche le message d'erreur si une erreur survient
 try {
-    // version en une ligne
-    $allArtists = $db->executeQuery("SELECT id, name, cover FROM artist");
 
-    // version multi-ligne
     $allArtists = $db->executeQuery(<<<SQL
     SELECT 
         id,
@@ -72,7 +66,7 @@ foreach ($allArtists as $artist) {
             </div>
 HTML;
 
-    // juste pour l'affichage, pas obligé
+    // Pour l'affichage
     if ($iterator % 4 == 3) {
         $artistsAsHTML .= '</div>';
     }

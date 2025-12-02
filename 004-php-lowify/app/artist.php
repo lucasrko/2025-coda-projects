@@ -3,7 +3,7 @@
 require_once 'inc/page.inc.php';
 require_once 'inc/database.inc.php';
 
-// Connexion à la base
+// Connexion à la base de données
 try {
     $db = new DatabaseManager(
         dsn: 'mysql:host=mysql;dbname=lowify;charset=utf8mb4',
@@ -17,7 +17,7 @@ try {
 
 $artistId = $_GET["id"] ?? 0;
 
-// --- Fonction formatage durée mm:ss ---
+//Fonction formatage durée mm:ss ---
 function formatDuration(int $seconds): string {
     $minutes = floor($seconds / 60);
     $remainingSeconds = $seconds % 60;

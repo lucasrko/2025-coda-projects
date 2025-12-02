@@ -32,7 +32,6 @@ try {
 
 //Top sorties (Les 5 albums les plus récents)
 
-
 try {
     $topRecentAlbums = $db->executeQuery(<<<SQL
         SELECT id, name, cover, release_date
@@ -81,10 +80,6 @@ try {
     exit;
 }
 
-
-// Génération du HTML
-
-
 //Top artistes
 $htmlTopArtists = "<h2>Top trending</h2><div class='artist-list'>";
 
@@ -103,9 +98,6 @@ foreach ($topArtists as $artist) {
     HTML;
 }
 
-
-
-
 //Top sorties
 $htmlTopRecent = "<h2>Top sorties</h2><div class='album-list'>";
 
@@ -123,8 +115,6 @@ foreach ($topRecentAlbums as $album) {
         </div>
     HTML;
 }
-
-
 
 //Top albums
 $htmlTopRated = "<h2>Top albums</h2><div class='album-list'>";

@@ -1,4 +1,5 @@
 <?php
+
 require_once 'inc/page.inc.php';
 require_once 'inc/database.inc.php';
 
@@ -36,8 +37,6 @@ if (empty($albumData)) {
 }
 
 $album = $albumData[0];
-
-
 $artist = null;
 $artistName = "Artiste inconnu";
 $artistId = 0;
@@ -196,27 +195,6 @@ body {
     border-bottom: 1px solid #2a2a2a;
 }
 
-/* --- RESPONSIVE --- */
-@media (max-width: 700px) {
-    .album-header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .album-cover {
-        width: 180px;
-        height: 180px;
-    }
-
-    .track {
-        grid-template-columns: 30px 1fr 60px 50px;
-    }
-
-    .track-header {
-        grid-template-columns: 30px 1fr 60px 50px;
-    }
-}
-
     </style>
 </head>
         <div class="card" style="margin-bottom:10px; display:flex; justify-content:space-between; padding:12px; background:#181818; border-radius:8px;">
@@ -227,7 +205,6 @@ HTML;
     }
 }
 
-$html .= "</div>";
 
 // Rendu complet page html
 echo (new HTMLPage(title: "Album - Lowify"))
